@@ -1,0 +1,3158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application
+  Name="LightSwitchApplication" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <Application.Attributes>
+    <Partial />
+  </Application.Attributes>
+  <Screen
+    Name="AppointmentsMgm">
+    <Screen.Attributes>
+      <SaveChangesTo
+        EntityContainer="ApplicationData" />
+    </Screen.Attributes>
+    <Screen.Methods>
+      <ScreenMethod
+        Name="Save">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+          <ImageResource
+            ResourceId="Microsoft.LightSwitch.BuiltInImageResources::BuiltInResources/Save.png" />
+        </ScreenMethod.Attributes>
+      </ScreenMethod>
+      <ScreenMethod
+        Name="Refresh">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+          <ImageResource
+            ResourceId="Microsoft.LightSwitch.BuiltInImageResources::BuiltInResources/Refresh.png" />
+        </ScreenMethod.Attributes>
+      </ScreenMethod>
+      <ScreenMethod
+        Name="Close">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+      </ScreenMethod>
+      <ScreenMethod
+        Name="AppointmentOk" />
+      <ScreenMethod
+        Name="AppointmentCancel" />
+      <ScreenMethod
+        Name="AddAppointment" />
+      <ScreenMethod
+        Name="AppointmentServiceOk" />
+      <ScreenMethod
+        Name="AppointmentServiceCancel" />
+      <ScreenMethod
+        Name="AppointmentServicesCollectionAddAndEditNew">
+        <ScreenMethod.Attributes>
+          <BuiltInMethodOverride
+            MethodName="AddAndEditNew" />
+        </ScreenMethod.Attributes>
+      </ScreenMethod>
+      <ScreenMethod
+        Name="AppointmentServicesCollectionEditSelected">
+        <ScreenMethod.Attributes>
+          <BuiltInMethodOverride
+            MethodName="EditSelected" />
+        </ScreenMethod.Attributes>
+      </ScreenMethod>
+      <ScreenMethod
+        Name="EditAppointment" />
+      <ScreenMethod
+        Name="CancelAppointment" />
+      <ScreenMethod
+        Name="AppointmentPayment" />
+      <ScreenMethod
+        Name="AppointmentTransactionOk" />
+      <ScreenMethod
+        Name="AppointmentTransactionCancel" />
+      <ScreenMethod
+        Name="AddPrescription" />
+      <ScreenMethod
+        Name="EditPrescription" />
+      <ScreenMethod
+        Name="RemovePrescription" />
+      <ScreenMethod
+        Name="PrescriptionOk" />
+      <ScreenMethod
+        Name="PrescriptionCancel" />
+    </Screen.Methods>
+    <Screen.Properties>
+      <ScreenCollectionProperty
+        Name="DoctorsList"
+        PageSize="45"
+        PropertyType="CollectionView$EmployeeFiles">
+        <ScreenCollectionProperty.Attributes>
+          <DisplayName
+            Value="Doctors" />
+        </ScreenCollectionProperty.Attributes>
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="DoctorsListQuery"
+            ReturnType="EmployeeFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="And">
+                  <BinaryExpression.Left>
+                    <BinaryExpression
+                      NodeType="Equal">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="EmployeeFiles/Properties[Inactive]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ConstantExpression
+                          ResultType=":Boolean"
+                          Value="False" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <BinaryExpression
+                      NodeType="Equal">
+                      <BinaryExpression.Left>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="EmployeeFiles/Properties[IsDoctor]" />
+                        </ChainExpression>
+                      </BinaryExpression.Left>
+                      <BinaryExpression.Right>
+                        <ConstantExpression
+                          ResultType=":Boolean"
+                          Value="True" />
+                      </BinaryExpression.Right>
+                    </BinaryExpression>
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="ApplicationData/Members[EmployeeFilesSet]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[DoctorsList]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="AppointmentsCollection"
+        PageSize="15"
+        PropertyType="CollectionView$AppointmentFiles">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="AppointmentsCollectionQuery"
+            ReturnType="AppointmentFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree>
+                <TernaryExpression
+                  NodeType="Between">
+                  <TernaryExpression.First>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="AppointmentFiles/Properties[AppointmentDateTime]" />
+                    </ChainExpression>
+                  </TernaryExpression.First>
+                  <TernaryExpression.Second>
+                    <ParameterExpression
+                      Parameter="FromDate" />
+                  </TernaryExpression.Second>
+                  <TernaryExpression.Third>
+                    <ParameterExpression
+                      Parameter="ToDate" />
+                  </TernaryExpression.Third>
+                </TernaryExpression>
+              </QueryFilterExpressionTree>
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Parameters>
+              <QueryParameter
+                Name="FromDate"
+                ParameterType=":Date?" />
+              <QueryParameter
+                Name="ToDate"
+                ParameterType=":Date?" />
+            </ScreenQueryDefinition.Parameters>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[DoctorsList]" />
+                  <MemberExpression
+                    Member="SelectedItem" />
+                  <MemberExpression
+                    Member="AppointmentsCollection" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[AppointmentsCollection]/Query">
+              <ArgumentExpression
+                Parameter="FromDate">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[FromDatePrp]" />
+                </ChainExpression>
+              </ArgumentExpression>
+              <ArgumentExpression
+                Parameter="ToDate">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[ToDatePrp]" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="SelectedPatient"
+        PageSize="45"
+        PropertyType="CollectionView$PatientFiles">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="SelectedPatientQuery"
+            ReturnType="PatientFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree>
+                <BinaryExpression
+                  NodeType="Equal">
+                  <BinaryExpression.Left>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="PatientFiles/Properties[Id]" />
+                    </ChainExpression>
+                  </BinaryExpression.Left>
+                  <BinaryExpression.Right>
+                    <ParameterExpression
+                      Parameter="PatientID" />
+                  </BinaryExpression.Right>
+                </BinaryExpression>
+              </QueryFilterExpressionTree>
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Parameters>
+              <QueryParameter
+                Name="PatientID"
+                ParameterType=":Int32?" />
+            </ScreenQueryDefinition.Parameters>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="ApplicationData/Members[PatientFilesSet]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[SelectedPatient]/Query">
+              <ArgumentExpression
+                Parameter="PatientID">
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[AppointmentsCollection]" />
+                  <MemberExpression
+                    Member="SelectedItem" />
+                  <MemberExpression
+                    Member="Patient" />
+                  <MemberExpression
+                    Member="Id" />
+                </ChainExpression>
+              </ArgumentExpression>
+            </CallExpression>
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="PatientAppointmentsCollection"
+        PageSize="45"
+        PropertyType="CollectionView$AppointmentFiles">
+        <ScreenCollectionProperty.Attributes>
+          <DisplayName
+            Value="Appointments History" />
+        </ScreenCollectionProperty.Attributes>
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PatientAppointmentsCollectionQuery"
+            ReturnType="AppointmentFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[SelectedPatient]" />
+                  <MemberExpression
+                    Member="SelectedItem" />
+                  <MemberExpression
+                    Member="AppointmentsCollection" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[PatientAppointmentsCollection]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="PatientDrugAllergysCollection"
+        PageSize="45"
+        PropertyType="CollectionView$DrugAllergyFiles">
+        <ScreenCollectionProperty.Attributes>
+          <DisplayName
+            Value="Drug Allergy" />
+        </ScreenCollectionProperty.Attributes>
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PatientDrugAllergysCollectionQuery"
+            ReturnType="DrugAllergyFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[SelectedPatient]" />
+                  <MemberExpression
+                    Member="SelectedItem" />
+                  <MemberExpression
+                    Member="DrugAllergysCollection" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[PatientDrugAllergysCollection]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="PatientChronicDiseasesCollection"
+        PageSize="45"
+        PropertyType="CollectionView$PatientChronicDiseaseFiles">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PatientChronicDiseasesCollectionQuery"
+            ReturnType="PatientChronicDiseaseFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[SelectedPatient]" />
+                  <MemberExpression
+                    Member="SelectedItem" />
+                  <MemberExpression
+                    Member="PatientChronicDiseasesCollection" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[PatientChronicDiseasesCollection]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="AppointmentServicesCollection"
+        PageSize="45"
+        PropertyType="CollectionView$AppointmentServiceFiles">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="AppointmentServicesCollectionQuery"
+            ReturnType="AppointmentServiceFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[AppointmentsCollection]" />
+                  <MemberExpression
+                    Member="SelectedItem" />
+                  <MemberExpression
+                    Member="AppointmentServicesCollection" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[AppointmentServicesCollection]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="ServicePrp"
+        PropertyType="ServiceFiles" />
+      <ScreenCollectionProperty
+        Name="AppointmentTransactionsCollection"
+        PageSize="45"
+        PropertyType="CollectionView$AppointmentTransactionFiles">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="AppointmentTransactionsCollectionQuery"
+            ReturnType="AppointmentTransactionFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[AppointmentsCollection]" />
+                  <MemberExpression
+                    Member="SelectedItem" />
+                  <MemberExpression
+                    Member="AppointmentTransactionsCollection" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[AppointmentTransactionsCollection]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="AccountFilesSet"
+        PageSize="45"
+        PropertyType="CollectionView$AccountFiles">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="AccountFilesSetQuery"
+            ReturnType="AccountFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="ApplicationData/Members[AccountFilesSet]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[AccountFilesSet]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="PrescriptionsCollection"
+        PageSize="45"
+        PropertyType="CollectionView$PrescriptionFiles">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PrescriptionsCollectionQuery"
+            ReturnType="PrescriptionFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[SelectedPatient]" />
+                  <MemberExpression
+                    Member="SelectedItem" />
+                  <MemberExpression
+                    Member="PrescriptionsCollection" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[PrescriptionsCollection]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="FromDatePrp"
+        PropertyType=":Date">
+        <ScreenProperty.Attributes>
+          <Required />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="ToDatePrp"
+        PropertyType=":Date">
+        <ScreenProperty.Attributes>
+          <Required />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenCollectionProperty
+        Name="PrescriptionMedicinesCollection"
+        PageSize="45"
+        PropertyType="CollectionView$PrescriptionMedicineFiles">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PrescriptionMedicinesCollectionQuery"
+            ReturnType="PrescriptionMedicineFiles*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="AppointmentsMgm/Properties[PrescriptionsCollection]" />
+                  <MemberExpression
+                    Member="SelectedItem" />
+                  <MemberExpression
+                    Member="PrescriptionMedicinesCollection" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="AppointmentsMgm/Properties[PrescriptionMedicinesCollection]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenProperty
+        Name="UseInsurancePrp"
+        PropertyType=":Boolean">
+        <ScreenProperty.Attributes>
+          <Required />
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="InsuranceCompanyPrp"
+        PropertyType="InsuranceCompanyFiles" />
+      <ScreenProperty
+        Name="CoPaymentPrp"
+        PropertyType="Microsoft.LightSwitch.Extensions:Money">
+        <ScreenProperty.Attributes>
+          <Required />
+          <Attribute
+            Class="Microsoft.LightSwitch.Extensions:@MoneyProperties">
+            <Property
+              Name="CurrencySymbol"
+              Value="$" />
+          </Attribute>
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="DeductableAmountPrp"
+        PropertyType="Microsoft.LightSwitch.Extensions:Money">
+        <ScreenProperty.Attributes>
+          <Required />
+          <Attribute
+            Class="Microsoft.LightSwitch.Extensions:@MoneyProperties">
+            <Property
+              Name="CurrencySymbol"
+              Value="$" />
+          </Attribute>
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+      <ScreenProperty
+        Name="DiscountPrp"
+        PropertyType="Microsoft.LightSwitch.Extensions:Money">
+        <ScreenProperty.Attributes>
+          <Required />
+          <Attribute
+            Class="Microsoft.LightSwitch.Extensions:@MoneyProperties">
+            <Property
+              Name="CurrencySymbol"
+              Value="$" />
+          </Attribute>
+        </ScreenProperty.Attributes>
+      </ScreenProperty>
+    </Screen.Properties>
+    <Screen.RootContentItem>
+      <ContentItem
+        Kind="Screen"
+        Name="RootContentItem">
+        <ContentItem.CommandItems>
+          <ContentItem
+            Kind="Command"
+            Name="Save">
+            <ContentItem.DataSource>
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <CallExpression
+                    Target="AppointmentsMgm/Methods[Save]" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ContentItem.DataSource>
+          </ContentItem>
+          <ContentItem
+            Kind="Command"
+            Name="Refresh">
+            <ContentItem.DataSource>
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <CallExpression
+                    Target="AppointmentsMgm/Methods[Refresh]" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ContentItem.DataSource>
+          </ContentItem>
+          <ContentItem
+            Kind="Command"
+            Name="AddAppointment">
+            <ContentItem.DataSource>
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <CallExpression
+                    Target="AppointmentsMgm/Methods[AddAppointment]" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ContentItem.DataSource>
+            <ContentItem.PropertySources>
+              <ControlPropertySource
+                Property="Microsoft.LightSwitch:RootControl/Properties[Image]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":String"
+                      Value="Microsoft.LightSwitch.UserImageResources::Resources\AddHeart.png" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+            </ContentItem.PropertySources>
+          </ContentItem>
+          <ContentItem
+            Kind="Command"
+            Name="EditAppointment">
+            <ContentItem.DataSource>
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <CallExpression
+                    Target="AppointmentsMgm/Methods[EditAppointment]" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ContentItem.DataSource>
+            <ContentItem.PropertySources>
+              <ControlPropertySource
+                Property="Microsoft.LightSwitch:RootControl/Properties[Image]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":String"
+                      Value="Microsoft.LightSwitch.UserImageResources::Resources\EditHeart.png" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+            </ContentItem.PropertySources>
+          </ContentItem>
+          <ContentItem
+            Kind="Command"
+            Name="CancelAppointment">
+            <ContentItem.DataSource>
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <CallExpression
+                    Target="AppointmentsMgm/Methods[CancelAppointment]" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ContentItem.DataSource>
+            <ContentItem.PropertySources>
+              <ControlPropertySource
+                Property="Microsoft.LightSwitch:RootControl/Properties[Image]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":String"
+                      Value="Microsoft.LightSwitch.UserImageResources::Resources\CancelHeart.png" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+            </ContentItem.PropertySources>
+          </ContentItem>
+          <ContentItem
+            Kind="Command"
+            Name="AppointmentPayment">
+            <ContentItem.DataSource>
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <CallExpression
+                    Target="AppointmentsMgm/Methods[AppointmentPayment]" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ContentItem.DataSource>
+            <ContentItem.PropertySources>
+              <ControlPropertySource
+                Property="Microsoft.LightSwitch:RootControl/Properties[Image]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":String"
+                      Value="Microsoft.LightSwitch.UserImageResources::Resources\Cash.png" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+            </ContentItem.PropertySources>
+          </ContentItem>
+          <ContentItem
+            Kind="Command"
+            Name="AddPrescription">
+            <ContentItem.DataSource>
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <CallExpression
+                    Target="AppointmentsMgm/Methods[AddPrescription]" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ContentItem.DataSource>
+            <ContentItem.PropertySources>
+              <ControlPropertySource
+                Property="Microsoft.LightSwitch:RootControl/Properties[Image]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":String"
+                      Value="Microsoft.LightSwitch.UserImageResources::Resources\AddMedicine.png" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+            </ContentItem.PropertySources>
+          </ContentItem>
+          <ContentItem
+            Kind="Command"
+            Name="EditPrescription">
+            <ContentItem.DataSource>
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <CallExpression
+                    Target="AppointmentsMgm/Methods[EditPrescription]" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ContentItem.DataSource>
+            <ContentItem.PropertySources>
+              <ControlPropertySource
+                Property="Microsoft.LightSwitch:RootControl/Properties[Image]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":String"
+                      Value="Microsoft.LightSwitch.UserImageResources::Resources\EditMedicine.png" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+            </ContentItem.PropertySources>
+          </ContentItem>
+          <ContentItem
+            Kind="Command"
+            Name="RemovePrescription">
+            <ContentItem.DataSource>
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <CallExpression
+                    Target="AppointmentsMgm/Methods[RemovePrescription]" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ContentItem.DataSource>
+            <ContentItem.PropertySources>
+              <ControlPropertySource
+                Property="Microsoft.LightSwitch:RootControl/Properties[Image]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":String"
+                      Value="Microsoft.LightSwitch.UserImageResources::Resources\RemoveMedicine.png" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+            </ContentItem.PropertySources>
+          </ContentItem>
+        </ContentItem.CommandItems>
+        <ContentItem
+          Kind="Group"
+          Name="ScreenLayout"
+          View="Microsoft.LightSwitch:ColumnsLayout">
+          <ContentItem
+            Kind="Group"
+            Name="ListColumn">
+            <ContentItem.PropertySources>
+              <ControlPropertySource
+                Property=":ColumnsLayout/Properties[WeightedColumnWidth]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":Double"
+                      Value="2" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+              <ControlPropertySource
+                Property="Microsoft.LightSwitch:RootControl/Properties[MaxWidth]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":Double"
+                      Value="250" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+            </ContentItem.PropertySources>
+            <ContentItem
+              DataType="CollectionView$EmployeeFiles"
+              Kind="Collection"
+              Name="EmployeeFilesList"
+              View=":DataGrid">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="AppointmentsMgm/Properties[DoctorsList]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem.PropertySources>
+                <ControlPropertySource
+                  Property=":RootControl/Properties[AttachedLabelPosition]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        ResultType=":String"
+                        Value="Collapsed" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+                <ControlPropertySource
+                  Property=":RootControl/Properties[VerticalAlignment]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        ResultType=":String"
+                        Value="Stretch" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch:DataGrid/Properties[ShowVirtualRow]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        ResultType=":Boolean"
+                        Value="False" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+              </ContentItem.PropertySources>
+              <ContentItem
+                DataType="EmployeeFiles"
+                Kind="Details"
+                Name="RowTemplate">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch:RootControl/Properties[MaxWidth]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          ResultType=":Double"
+                          Value="249" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+                <ContentItem
+                  DataType="Microsoft.LightSwitch.Extensions:Image?"
+                  Kind="Value"
+                  Name="Photo"
+                  View="Microsoft.LightSwitch.Extensions:ImageViewerControl">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EmployeeFiles/Properties[Photo]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  DataType=":String"
+                  Kind="Value"
+                  Name="FullName">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EmployeeFiles/Properties[FullName]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:RootControl/Properties[Width]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Double"
+                            Value="130" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+          </ContentItem>
+          <ContentItem
+            Kind="Group"
+            Name="MainTabControl"
+            View=":TabsLayout">
+            <ContentItem.PropertySources>
+              <ControlPropertySource
+                Property=":ScrollableControl/Properties[IsVerticalScrollBarEnabled]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":Boolean"
+                      Value="True" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+              <ControlPropertySource
+                Property=":ColumnsLayout/Properties[WeightedColumnWidth]">
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <ConstantExpression
+                      ResultType=":Double"
+                      Value="3" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ControlPropertySource>
+            </ContentItem.PropertySources>
+            <ContentItem
+              Kind="Group"
+              Name="Appointments">
+              <ContentItem
+                Kind="Group"
+                Name="TopColumn"
+                View=":ColumnsLayout">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch:RootControl/Properties[MaxHeight]">
+                    <ScreenExpressionTree>
+                      <ConstantExpression
+                        ResultType=":Double"
+                        Value="50" />
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+                <ContentItem
+                  DataType=":Date"
+                  Kind="Value"
+                  Name="FromDatePrp">
+                  <ContentItem.Attributes>
+                    <DisplayName
+                      Value="From Date" />
+                  </ContentItem.Attributes>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[FromDatePrp]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property=":RootControl/Properties[AttachedLabelPosition]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":String"
+                            Value="Top" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                </ContentItem>
+                <ContentItem
+                  DataType=":Date"
+                  Kind="Value"
+                  Name="ToDatePrp">
+                  <ContentItem.Attributes>
+                    <DisplayName
+                      Value="To Date" />
+                  </ContentItem.Attributes>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[ToDatePrp]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property=":RootControl/Properties[AttachedLabelPosition]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":String"
+                            Value="Top" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                </ContentItem>
+              </ContentItem>
+              <ContentItem
+                DataType="CollectionView$AppointmentFiles"
+                Kind="Collection"
+                Name="AppointmentsCollection"
+                View=":DataGrid">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <MemberExpression
+                        Member="AppointmentsMgm/Properties[AppointmentsCollection]" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property=":RootControl/Properties[VerticalAlignment]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          ResultType=":String"
+                          Value="Stretch" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property=":DataGrid/Properties[ShowVirtualRow]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          ResultType=":Boolean"
+                          Value="False" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+                <ContentItem
+                  DataType="AppointmentFiles"
+                  Kind="Details"
+                  Name="RowTemplate1">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression />
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property=":RootControl/Properties[BrowseOnly]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Boolean"
+                            Value="True" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:Image?"
+                    Kind="Value"
+                    Name="Patient_Photo">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentFiles/Properties[Patient]" />
+                          <MemberExpression
+                            Member="Photo" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="PatientFiles"
+                    Kind="Details"
+                    Name="Patient">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentFiles/Properties[Patient]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      DataType="PatientFiles"
+                      Kind="Details"
+                      Name="RowTemplate2">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":DateTime"
+                    Kind="Value"
+                    Name="AppointmentDate">
+                    <ContentItem.Attributes>
+                      <DisplayName
+                        Value="Date &amp; Time" />
+                    </ContentItem.Attributes>
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentFiles/Properties[AppointmentDateTime]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:Money"
+                    Kind="Value"
+                    Name="ServicesTotal">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentFiles/Properties[ServicesTotal]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:Money"
+                    Kind="Value"
+                    Name="Discount">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentFiles/Properties[Discount]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:Money"
+                    Kind="Value"
+                    Name="AppointmentTotal">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentFiles/Properties[AppointmentTotal]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:Money"
+                    Kind="Value"
+                    Name="Balance">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentFiles/Properties[Balance]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":String?"
+                    Kind="Value"
+                    Name="Note">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentFiles/Properties[Note]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Kind="Group"
+              Name="Group">
+              <ContentItem.Attributes>
+                <DisplayName
+                  Value="Patient Details" />
+              </ContentItem.Attributes>
+              <ContentItem
+                Kind="Group"
+                Name="PatientTabControl"
+                View=":TabsLayout">
+                <ContentItem
+                  DataType="PatientFiles"
+                  Kind="Details"
+                  Name="SelectedPatient_SelectedItem">
+                  <ContentItem.Attributes>
+                    <DisplayName
+                      Value="Personal Info" />
+                  </ContentItem.Attributes>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[SelectedPatient]" />
+                        <MemberExpression
+                          Member="SelectedItem" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:RootControl/Properties[BrowseOnly]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Boolean"
+                            Value="True" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:Image?"
+                    Kind="Value"
+                    Name="Photo1">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[Photo]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[Width]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Double"
+                              Value="160" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[Height]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Double"
+                              Value="160" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":String"
+                    Kind="Value"
+                    Name="FirstName">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[FirstName]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":String?"
+                    Kind="Value"
+                    Name="MidName">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[MidName]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":String"
+                    Kind="Value"
+                    Name="LastName">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[LastName]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:PhoneNumber?"
+                    Kind="Value"
+                    Name="Phone">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[Phone]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:PhoneNumber?"
+                    Kind="Value"
+                    Name="Mobile">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[Mobile]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:EmailAddress?"
+                    Kind="Value"
+                    Name="Email">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[Email]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":String?"
+                    Kind="Value"
+                    Name="BloodType">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[BloodType]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":String?"
+                    Kind="Value"
+                    Name="IdentityNumber">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[IdentityNumber]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":String?"
+                    Kind="Value"
+                    Name="Address">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[AddressLine1]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":Boolean"
+                    Kind="Value"
+                    Name="Inactive">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PatientFiles/Properties[Inactive]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  DataType="CollectionView$AppointmentFiles"
+                  Kind="Collection"
+                  Name="PatientAppointmentsCollection">
+                  <ContentItem.CommandItems>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PatientAppointmentsCollection_EditSelected">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentsMgm/Properties[PatientAppointmentsCollection]" />
+                            <CallExpression
+                              Target="EditSelected" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PatientAppointmentsCollection_DeleteSelected">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentsMgm/Properties[PatientAppointmentsCollection]" />
+                            <CallExpression
+                              Target="DeleteSelected" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem.CommandItems>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[PatientAppointmentsCollection]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:DataGrid/Properties[ShowVirtualRow]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Boolean"
+                            Value="False" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    DataType="AppointmentFiles"
+                    Kind="Details"
+                    Name="PatientAppointmentsCollectionTemplate">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[BrowseOnly]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Boolean"
+                              Value="True" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      DataType=":DateTime"
+                      Kind="Value"
+                      Name="AppointmentDate1">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Date" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentFiles/Properties[AppointmentDateTime]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      DataType="EmployeeFiles"
+                      Kind="Details"
+                      Name="Doctor">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentFiles/Properties[Doctor]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        DataType="EmployeeFiles"
+                        Kind="Details"
+                        Name="EmployeeFiles">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression />
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                    <ContentItem
+                      DataType="Microsoft.LightSwitch.Extensions:Money"
+                      Kind="Value"
+                      Name="ServicesTotal1">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentFiles/Properties[ServicesTotal]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      DataType="Microsoft.LightSwitch.Extensions:Money"
+                      Kind="Value"
+                      Name="Discount1">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentFiles/Properties[Discount]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      DataType="Microsoft.LightSwitch.Extensions:Money"
+                      Kind="Value"
+                      Name="AppointmentTotal1">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentFiles/Properties[AppointmentTotal]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      DataType=":String?"
+                      Kind="Value"
+                      Name="Note1">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentFiles/Properties[Note]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  DataType="CollectionView$DrugAllergyFiles"
+                  Kind="Collection"
+                  Name="PatientDrugAllergysCollection">
+                  <ContentItem.CommandItems>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PatientDrugAllergysCollection_AddAndEditNew">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentsMgm/Properties[PatientDrugAllergysCollection]" />
+                            <CallExpression
+                              Target="AddAndEditNew" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PatientDrugAllergysCollection_EditSelected">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentsMgm/Properties[PatientDrugAllergysCollection]" />
+                            <CallExpression
+                              Target="EditSelected" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PatientDrugAllergysCollection_DeleteSelected">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentsMgm/Properties[PatientDrugAllergysCollection]" />
+                            <CallExpression
+                              Target="DeleteSelected" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem.CommandItems>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[PatientDrugAllergysCollection]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:DataGrid/Properties[ShowVirtualRow]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Boolean"
+                            Value="False" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    DataType="DrugAllergyFiles"
+                    Kind="Details"
+                    Name="PatientDrugAllergysCollectionTemplate">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[BrowseOnly]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Boolean"
+                              Value="True" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      DataType="MedicineFiles"
+                      Kind="Details"
+                      Name="Medicine">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="DrugAllergyFiles/Properties[Medicine]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        DataType="MedicineFiles"
+                        Kind="Details"
+                        Name="MedicineFiles">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression />
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                    <ContentItem
+                      DataType=":String?"
+                      Kind="Value"
+                      Name="Medicine_Description">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="DrugAllergyFiles/Properties[Medicine]" />
+                            <MemberExpression
+                              Member="Description" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  DataType="CollectionView$PatientChronicDiseaseFiles"
+                  Kind="Collection"
+                  Name="PatientChronicDiseasesCollection">
+                  <ContentItem.Attributes>
+                    <DisplayName
+                      Value="Chronic Diseases" />
+                  </ContentItem.Attributes>
+                  <ContentItem.CommandItems>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PatientChronicDiseasesCollection_AddAndEditNew">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentsMgm/Properties[PatientChronicDiseasesCollection]" />
+                            <CallExpression
+                              Target="AddAndEditNew" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PatientChronicDiseasesCollection_EditSelected">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentsMgm/Properties[PatientChronicDiseasesCollection]" />
+                            <CallExpression
+                              Target="EditSelected" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PatientChronicDiseasesCollection_DeleteSelected">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentsMgm/Properties[PatientChronicDiseasesCollection]" />
+                            <CallExpression
+                              Target="DeleteSelected" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem.CommandItems>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[PatientChronicDiseasesCollection]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:DataGrid/Properties[ShowVirtualRow]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Boolean"
+                            Value="False" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    DataType="PatientChronicDiseaseFiles"
+                    Kind="Details"
+                    Name="PatientChronicDiseasesCollectionTemplate">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[BrowseOnly]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Boolean"
+                              Value="True" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      DataType="ChronicDiseaseFiles"
+                      Kind="Details"
+                      Name="ChronicDisease">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="PatientChronicDiseaseFiles/Properties[ChronicDisease]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        DataType="ChronicDiseaseFiles"
+                        Kind="Details"
+                        Name="ChronicDiseaseFiles">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression />
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                    <ContentItem
+                      DataType=":String?"
+                      Kind="Value"
+                      Name="ChronicDisease_Description">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="PatientChronicDiseaseFiles/Properties[ChronicDisease]" />
+                            <MemberExpression
+                              Member="Description" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  DataType="CollectionView$PrescriptionFiles"
+                  Kind="Collection"
+                  Name="PrescriptionsCollection">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[PrescriptionsCollection]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:DataGrid/Properties[ShowVirtualRow]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Boolean"
+                            Value="False" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    DataType="PrescriptionFiles"
+                    Kind="Details"
+                    Name="PrescriptionsCollectionTemplate">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[BrowseOnly]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Boolean"
+                              Value="True" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      DataType=":Date"
+                      Kind="Value"
+                      Name="PrescriptionDate">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="PrescriptionFiles/Properties[PrescriptionDate]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      DataType="EmployeeFiles"
+                      Kind="Details"
+                      Name="Doctor2">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="PrescriptionFiles/Properties[Doctor]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem
+                        DataType="EmployeeFiles"
+                        Kind="Details"
+                        Name="EmployeeFiles1">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression />
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                    <ContentItem
+                      DataType=":String?"
+                      Kind="Value"
+                      Name="Note3">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="PrescriptionFiles/Properties[Note]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
+              </ContentItem>
+              <ContentItem
+                Kind="Group"
+                Name="AppointmentAddEdit"
+                View=":ModalWindow">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch:ModalWindow/Properties[ShowButton]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          ResultType=":Boolean"
+                          Value="False" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+                <ContentItem
+                  DataType="AppointmentFiles"
+                  Kind="Details"
+                  Name="AppointmentsCollection_SelectedItem">
+                  <ContentItem.CommandItems>
+                    <ContentItem
+                      Kind="Command"
+                      Name="AppointmentOk">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Ok" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AppointmentsMgm/Methods[AppointmentOk]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Command"
+                      Name="AppointmentCancel">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Cancel" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AppointmentsMgm/Methods[AppointmentCancel]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem.CommandItems>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[AppointmentsCollection]" />
+                        <MemberExpression
+                          Member="SelectedItem" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:RootControl/Properties[MinWidth]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Double"
+                            Value="500" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:RootControl/Properties[MinHeight]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Double"
+                            Value="470" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    Kind="Group"
+                    Name="Group5"
+                    View=":ColumnsLayout">
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[MaxHeight]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Double"
+                              Value="30" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      DataType=":DateTime"
+                      Kind="Value"
+                      Name="AppointmentDate2">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Date &amp; Time" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <MemberExpression
+                              Member="AppointmentFiles/Properties[AppointmentDateTime]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Kind="Group"
+                    Name="Group3"
+                    View=":ColumnsLayout">
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[MaxHeight]">
+                        <ScreenExpressionTree>
+                          <ConstantExpression
+                            ResultType=":Double"
+                            Value="30" />
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      Kind="Group"
+                      Name="Col1"
+                      View=":RowsLayout">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Col1" />
+                      </ContentItem.Attributes>
+                      <ContentItem
+                        DataType="EmployeeFiles"
+                        Kind="Details"
+                        Name="Doctor1"
+                        View=":DetailsAutoCompleteBox">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentFiles/Properties[Doctor]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          DataType="EmployeeFiles"
+                          Kind="Details"
+                          Name="Doctor1Template"
+                          View=":TableLayout">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression />
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                          <ContentItem.PropertySources>
+                            <ControlPropertySource
+                              Property=":RootControl/Properties[MaxWidth]">
+                              <ScreenExpressionTree>
+                                <ChainExpression>
+                                  <ConstantExpression
+                                    ResultType=":Double"
+                                    Value="350" />
+                                </ChainExpression>
+                              </ScreenExpressionTree>
+                            </ControlPropertySource>
+                          </ContentItem.PropertySources>
+                          <ContentItem
+                            DataType="Microsoft.LightSwitch.Extensions:Image?"
+                            Kind="Value"
+                            Name="Photo2">
+                            <ContentItem.DataSource>
+                              <ScreenExpressionTree>
+                                <ChainExpression>
+                                  <MemberExpression
+                                    Member="EmployeeFiles/Properties[Photo]" />
+                                </ChainExpression>
+                              </ScreenExpressionTree>
+                            </ContentItem.DataSource>
+                          </ContentItem>
+                          <ContentItem
+                            DataType=":String"
+                            Kind="Value"
+                            Name="FullName1">
+                            <ContentItem.DataSource>
+                              <ScreenExpressionTree>
+                                <ChainExpression>
+                                  <MemberExpression
+                                    Member="EmployeeFiles/Properties[FullName]" />
+                                </ChainExpression>
+                              </ScreenExpressionTree>
+                            </ContentItem.DataSource>
+                          </ContentItem>
+                          <ContentItem
+                            DataType=":String?"
+                            Kind="Value"
+                            Name="IdentityNumber1">
+                            <ContentItem.DataSource>
+                              <ScreenExpressionTree>
+                                <ChainExpression>
+                                  <MemberExpression
+                                    Member="EmployeeFiles/Properties[IdentityNumber]" />
+                                </ChainExpression>
+                              </ScreenExpressionTree>
+                            </ContentItem.DataSource>
+                          </ContentItem>
+                        </ContentItem>
+                      </ContentItem>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Group"
+                      Name="Col2"
+                      View=":RowsLayout">
+                      <ContentItem
+                        DataType="PatientFiles"
+                        Kind="Details"
+                        Name="Patient1">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentFiles/Properties[Patient]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          DataType="PatientFiles"
+                          Kind="Details"
+                          Name="PatientFiles"
+                          View=":TableLayout">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression />
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                          <ContentItem.PropertySources>
+                            <ControlPropertySource
+                              Property=":RootControl/Properties[MaxWidth]">
+                              <ScreenExpressionTree>
+                                <ChainExpression>
+                                  <ConstantExpression
+                                    ResultType=":Double"
+                                    Value="350" />
+                                </ChainExpression>
+                              </ScreenExpressionTree>
+                            </ControlPropertySource>
+                          </ContentItem.PropertySources>
+                          <ContentItem
+                            DataType="Microsoft.LightSwitch.Extensions:Image?"
+                            Kind="Value"
+                            Name="Photo3">
+                            <ContentItem.DataSource>
+                              <ScreenExpressionTree>
+                                <ChainExpression>
+                                  <MemberExpression
+                                    Member="PatientFiles/Properties[Photo]" />
+                                </ChainExpression>
+                              </ScreenExpressionTree>
+                            </ContentItem.DataSource>
+                          </ContentItem>
+                          <ContentItem
+                            DataType=":String"
+                            Kind="Value"
+                            Name="FullName2">
+                            <ContentItem.DataSource>
+                              <ScreenExpressionTree>
+                                <ChainExpression>
+                                  <MemberExpression
+                                    Member="PatientFiles/Properties[FullName]" />
+                                </ChainExpression>
+                              </ScreenExpressionTree>
+                            </ContentItem.DataSource>
+                          </ContentItem>
+                          <ContentItem
+                            DataType=":String?"
+                            Kind="Value"
+                            Name="IdentityNumber2">
+                            <ContentItem.DataSource>
+                              <ScreenExpressionTree>
+                                <ChainExpression>
+                                  <MemberExpression
+                                    Member="PatientFiles/Properties[IdentityNumber]" />
+                                </ChainExpression>
+                              </ScreenExpressionTree>
+                            </ContentItem.DataSource>
+                          </ContentItem>
+                        </ContentItem>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="CollectionView$AppointmentServiceFiles"
+                    Kind="Collection"
+                    Name="AppointmentServicesCollection"
+                    View=":DataGrid">
+                    <ContentItem.CommandItems>
+                      <ContentItem
+                        Kind="Command"
+                        Name="AppointmentServicesCollectionAddAndEditNew">
+                        <ContentItem.Attributes>
+                          <DisplayName
+                            Value="Add..." />
+                        </ContentItem.Attributes>
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <CallExpression
+                                Target="AppointmentsMgm/Methods[AppointmentServicesCollectionAddAndEditNew]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        Kind="Command"
+                        Name="AppointmentServicesCollectionEditSelected">
+                        <ContentItem.Attributes>
+                          <DisplayName
+                            Value="Edit..." />
+                        </ContentItem.Attributes>
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <CallExpression
+                                Target="AppointmentsMgm/Methods[AppointmentServicesCollectionEditSelected]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        Kind="Command"
+                        Name="AppointmentServicesCollection_DeleteSelected">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentsMgm/Properties[AppointmentServicesCollection]" />
+                              <CallExpression
+                                Target="DeleteSelected" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem.CommandItems>
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentsMgm/Properties[AppointmentServicesCollection]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:DataGrid/Properties[ShowVirtualRow]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Boolean"
+                              Value="False" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      DataType="AppointmentServiceFiles"
+                      Kind="Details"
+                      Name="AppointmentServicesCollectionTemplate">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem.PropertySources>
+                        <ControlPropertySource
+                          Property="Microsoft.LightSwitch:RootControl/Properties[BrowseOnly]">
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <ConstantExpression
+                                ResultType=":Boolean"
+                                Value="True" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ControlPropertySource>
+                      </ContentItem.PropertySources>
+                      <ContentItem
+                        DataType="ServiceFiles"
+                        Kind="Details"
+                        Name="Service">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentServiceFiles/Properties[Service]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          DataType="ServiceFiles"
+                          Kind="Details"
+                          Name="ServiceFiles">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression />
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                        </ContentItem>
+                      </ContentItem>
+                      <ContentItem
+                        DataType="Microsoft.LightSwitch.Extensions:Money"
+                        Kind="Value"
+                        Name="Fees">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentServiceFiles/Properties[Fees]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Kind="Group"
+                    Name="Group6"
+                    View=":ColumnsLayout">
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[MaxHeight]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Double"
+                              Value="30" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      Kind="Group"
+                      Name="Group9">
+                      <ContentItem
+                        DataType="Microsoft.LightSwitch.Extensions:Money"
+                        Kind="Value"
+                        Name="ServicesTotal2">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentFiles/Properties[ServicesTotal]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Group"
+                      Name="Group10">
+                      <ContentItem
+                        DataType=":Boolean"
+                        Kind="Value"
+                        Name="UseInsurancePrp">
+                        <ContentItem.Attributes>
+                          <DisplayName
+                            Value="Use Insurance" />
+                        </ContentItem.Attributes>
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentsMgm/Properties[UseInsurancePrp]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    Kind="Group"
+                    Name="Group7"
+                    View=":ColumnsLayout">
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[MaxHeight]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Double"
+                              Value="190" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      Kind="Group"
+                      Name="Group8">
+                      <ContentItem
+                        DataType="InsuranceCompanyFiles"
+                        Kind="Details"
+                        Name="InsuranceCompanyPrp">
+                        <ContentItem.Attributes>
+                          <DisplayName
+                            Value="Insurance Company" />
+                        </ContentItem.Attributes>
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentsMgm/Properties[InsuranceCompanyPrp]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          DataType="InsuranceCompanyFiles"
+                          Kind="Details"
+                          Name="InsuranceCompanyFiles">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression />
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                        </ContentItem>
+                      </ContentItem>
+                      <ContentItem
+                        DataType="Microsoft.LightSwitch.Extensions:Money"
+                        Kind="Value"
+                        Name="CoPaymentPrp">
+                        <ContentItem.Attributes>
+                          <DisplayName
+                            Value="Co Payment" />
+                        </ContentItem.Attributes>
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentsMgm/Properties[CoPaymentPrp]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        DataType="Microsoft.LightSwitch.Extensions:Money"
+                        Kind="Value"
+                        Name="DeductableAmountPrp">
+                        <ContentItem.Attributes>
+                          <DisplayName
+                            Value="Deductable Amount" />
+                        </ContentItem.Attributes>
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentsMgm/Properties[DeductableAmountPrp]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        DataType="Microsoft.LightSwitch.Extensions:Money"
+                        Kind="Value"
+                        Name="DiscountPrp">
+                        <ContentItem.Attributes>
+                          <DisplayName
+                            Value="Discount" />
+                        </ContentItem.Attributes>
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentsMgm/Properties[DiscountPrp]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        DataType="Microsoft.LightSwitch.Extensions:Money"
+                        Kind="Value"
+                        Name="AppointmentTotal2">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentFiles/Properties[AppointmentTotal]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        DataType=":String?"
+                        Kind="Value"
+                        Name="Note2">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentFiles/Properties[Note]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem.PropertySources>
+                          <ControlPropertySource
+                            Property=":RootControl/Properties[HeightSizingMode]">
+                            <ScreenExpressionTree>
+                              <ChainExpression>
+                                <ConstantExpression
+                                  ResultType=":String"
+                                  Value="Lines" />
+                              </ChainExpression>
+                            </ScreenExpressionTree>
+                          </ControlPropertySource>
+                          <ControlPropertySource
+                            Property=":TextBox/Properties[Lines]">
+                            <ScreenExpressionTree>
+                              <ChainExpression>
+                                <ConstantExpression
+                                  ResultType=":Int32"
+                                  Value="3" />
+                              </ChainExpression>
+                            </ScreenExpressionTree>
+                          </ControlPropertySource>
+                        </ContentItem.PropertySources>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                </ContentItem>
+              </ContentItem>
+              <ContentItem
+                Kind="Group"
+                Name="AppointmentServiceAddEdit"
+                View=":ModalWindow">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch:ModalWindow/Properties[ShowButton]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          ResultType=":Boolean"
+                          Value="False" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+                <ContentItem
+                  DataType="AppointmentServiceFiles"
+                  Kind="Details"
+                  Name="AppointmentServicesCollection_SelectedItem">
+                  <ContentItem.CommandItems>
+                    <ContentItem
+                      Kind="Command"
+                      Name="AppointmentServiceOk">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Ok" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AppointmentsMgm/Methods[AppointmentServiceOk]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Command"
+                      Name="AppointmentServiceCancel">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Cancel" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AppointmentsMgm/Methods[AppointmentServiceCancel]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem.CommandItems>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[AppointmentServicesCollection]" />
+                        <MemberExpression
+                          Member="SelectedItem" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:RootControl/Properties[MinWidth]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Double"
+                            Value="500" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    DataType="ServiceFiles"
+                    Kind="Details"
+                    Name="ServicePrp">
+                    <ContentItem.Attributes>
+                      <DisplayName
+                        Value="Service" />
+                    </ContentItem.Attributes>
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentsMgm/Properties[ServicePrp]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      DataType="ServiceFiles"
+                      Kind="Details"
+                      Name="ServiceFiles2">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:Money"
+                    Kind="Value"
+                    Name="Fees1">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentServiceFiles/Properties[Fees]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+              </ContentItem>
+              <ContentItem
+                Kind="Group"
+                Name="TransactionAdd"
+                View=":ModalWindow">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch:ModalWindow/Properties[ShowButton]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          ResultType=":Boolean"
+                          Value="False" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+                <ContentItem
+                  DataType="AppointmentTransactionFiles"
+                  Kind="Details"
+                  Name="AppointmentTransactionsCollection_SelectedItem">
+                  <ContentItem.CommandItems>
+                    <ContentItem
+                      Kind="Command"
+                      Name="AppointmentTransactionOk">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Ok" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AppointmentsMgm/Methods[AppointmentTransactionOk]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Command"
+                      Name="AppointmentTransactionCancel">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Cancel" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AppointmentsMgm/Methods[AppointmentTransactionCancel]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem.CommandItems>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[AppointmentTransactionsCollection]" />
+                        <MemberExpression
+                          Member="SelectedItem" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:RootControl/Properties[MinWidth]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Double"
+                            Value="400" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    DataType=":String"
+                    Kind="Value"
+                    Name="Appointment_Patient_FullName">
+                    <ContentItem.Attributes>
+                      <DisplayName
+                        Value="Patient" />
+                    </ContentItem.Attributes>
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentTransactionFiles/Properties[Appointment]" />
+                          <MemberExpression
+                            Member="Patient" />
+                          <MemberExpression
+                            Member="FullName" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:Money"
+                    Kind="Value"
+                    Name="Appointment_Balance">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentTransactionFiles/Properties[Appointment]" />
+                          <MemberExpression
+                            Member="Balance" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="Microsoft.LightSwitch.Extensions:Money"
+                    Kind="Value"
+                    Name="TransactionAmount">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentTransactionFiles/Properties[TransactionAmount]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":String"
+                    Kind="Value"
+                    Name="PaymentType">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentTransactionFiles/Properties[PaymentType]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+              </ContentItem>
+              <ContentItem
+                Kind="Group"
+                Name="PrescriptionAddEdit"
+                View=":ModalWindow">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch:ModalWindow/Properties[ShowButton]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          ResultType=":Boolean"
+                          Value="False" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+                <ContentItem
+                  DataType="PrescriptionFiles"
+                  Kind="Details"
+                  Name="PrescriptionsCollection_SelectedItem">
+                  <ContentItem.CommandItems>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PrescriptionOk">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Ok" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AppointmentsMgm/Methods[PrescriptionOk]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                    <ContentItem
+                      Kind="Command"
+                      Name="PrescriptionCancel">
+                      <ContentItem.Attributes>
+                        <DisplayName
+                          Value="Cancel" />
+                      </ContentItem.Attributes>
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <CallExpression
+                              Target="AppointmentsMgm/Methods[PrescriptionCancel]" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem.CommandItems>
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="AppointmentsMgm/Properties[PrescriptionsCollection]" />
+                        <MemberExpression
+                          Member="SelectedItem" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem.PropertySources>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:RootControl/Properties[MinWidth]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Double"
+                            Value="450" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                    <ControlPropertySource
+                      Property="Microsoft.LightSwitch:RootControl/Properties[MinHeight]">
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <ConstantExpression
+                            ResultType=":Double"
+                            Value="470" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ControlPropertySource>
+                  </ContentItem.PropertySources>
+                  <ContentItem
+                    DataType=":Date"
+                    Kind="Value"
+                    Name="PrescriptionDate1">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PrescriptionFiles/Properties[PrescriptionDate]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="PatientFiles"
+                    Kind="Details"
+                    Name="Patient2"
+                    View=":Summary">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PrescriptionFiles/Properties[Patient]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="EmployeeFiles"
+                    Kind="Details"
+                    Name="Doctor3">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PrescriptionFiles/Properties[Doctor]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem
+                      DataType="EmployeeFiles"
+                      Kind="Details"
+                      Name="EmployeeFiles2">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    DataType="CollectionView$PrescriptionMedicineFiles"
+                    Kind="Collection"
+                    Name="PrescriptionMedicinesCollection">
+                    <ContentItem.CommandItems>
+                      <ContentItem
+                        Kind="Command"
+                        Name="PrescriptionMedicinesCollection_AddAndEditNew">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentsMgm/Properties[PrescriptionMedicinesCollection]" />
+                              <CallExpression
+                                Target="AddAndEditNew" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        Kind="Command"
+                        Name="PrescriptionMedicinesCollection_EditSelected">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentsMgm/Properties[PrescriptionMedicinesCollection]" />
+                              <CallExpression
+                                Target="EditSelected" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                      <ContentItem
+                        Kind="Command"
+                        Name="PrescriptionMedicinesCollection_DeleteSelected">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="AppointmentsMgm/Properties[PrescriptionMedicinesCollection]" />
+                              <CallExpression
+                                Target="DeleteSelected" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                      </ContentItem>
+                    </ContentItem.CommandItems>
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="AppointmentsMgm/Properties[PrescriptionMedicinesCollection]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:DataGrid/Properties[ShowVirtualRow]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Boolean"
+                              Value="False" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                    <ContentItem
+                      DataType="PrescriptionMedicineFiles"
+                      Kind="Details"
+                      Name="PrescriptionMedicinesCollectionTemplate">
+                      <ContentItem.DataSource>
+                        <ScreenExpressionTree>
+                          <ChainExpression />
+                        </ScreenExpressionTree>
+                      </ContentItem.DataSource>
+                      <ContentItem.PropertySources>
+                        <ControlPropertySource
+                          Property="Microsoft.LightSwitch:RootControl/Properties[BrowseOnly]">
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <ConstantExpression
+                                ResultType=":Boolean"
+                                Value="True" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ControlPropertySource>
+                      </ContentItem.PropertySources>
+                      <ContentItem
+                        DataType="MedicineFiles"
+                        Kind="Details"
+                        Name="Medicine1">
+                        <ContentItem.DataSource>
+                          <ScreenExpressionTree>
+                            <ChainExpression>
+                              <MemberExpression
+                                Member="PrescriptionMedicineFiles/Properties[Medicine]" />
+                            </ChainExpression>
+                          </ScreenExpressionTree>
+                        </ContentItem.DataSource>
+                        <ContentItem
+                          DataType="MedicineFiles"
+                          Kind="Details"
+                          Name="MedicineFiles1">
+                          <ContentItem.DataSource>
+                            <ScreenExpressionTree>
+                              <ChainExpression />
+                            </ScreenExpressionTree>
+                          </ContentItem.DataSource>
+                        </ContentItem>
+                      </ContentItem>
+                    </ContentItem>
+                  </ContentItem>
+                  <ContentItem
+                    DataType=":String?"
+                    Kind="Value"
+                    Name="Note4">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression>
+                          <MemberExpression
+                            Member="PrescriptionFiles/Properties[Note]" />
+                        </ChainExpression>
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                    <ContentItem.PropertySources>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:RootControl/Properties[HeightSizingMode]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":String"
+                              Value="Lines" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                      <ControlPropertySource
+                        Property="Microsoft.LightSwitch:TextBox/Properties[Lines]">
+                        <ScreenExpressionTree>
+                          <ChainExpression>
+                            <ConstantExpression
+                              ResultType=":Int32"
+                              Value="3" />
+                          </ChainExpression>
+                        </ScreenExpressionTree>
+                      </ControlPropertySource>
+                    </ContentItem.PropertySources>
+                  </ContentItem>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+          </ContentItem>
+        </ContentItem>
+      </ContentItem>
+    </Screen.RootContentItem>
+  </Screen>
+  <Application.Methods>
+    <ApplicationMethod
+      Name="ShowAppointmentsMgm">
+      <ApplicationMethod.Attributes>
+        <ShowScreenMethod
+          TargetScreen="AppointmentsMgm" />
+      </ApplicationMethod.Attributes>
+    </ApplicationMethod>
+  </Application.Methods>
+</Application>

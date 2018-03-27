@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceApplication
+  Name="LightSwitchServiceApplication" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <ServiceApplication.Attributes>
+    <Partial />
+  </ServiceApplication.Attributes>
+  <EntityType
+    Name="InsurancePolicyFiles">
+    <EntityType.Methods>
+      <EntityMethod
+        Name="Delete">
+        <EntityMethod.Attributes>
+          <Generated />
+        </EntityMethod.Attributes>
+      </EntityMethod>
+    </EntityType.Methods>
+    <EntityType.Properties>
+      <KeyProperty
+        Name="Id"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="RowVersion"
+        PropertyType=":RowVersion">
+        <EntityProperty.Attributes>
+          <UseForConcurrency />
+          <Generated />
+          <Hidden />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Name"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Discount"
+        PropertyType="Microsoft.LightSwitch.Extensions:Percent">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+          <DecimalConstraint
+            Precision="18"
+            Scale="9" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="CoPayment"
+        PropertyType="Microsoft.LightSwitch.Extensions:Percent">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+          <DecimalConstraint
+            Precision="18"
+            Scale="9" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="DeductableAmount"
+        PropertyType="Microsoft.LightSwitch.Extensions:Money">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+          <DecimalConstraint
+            Precision="18"
+            Scale="2" />
+          <Attribute
+            Class="Microsoft.LightSwitch.Extensions:@MoneyProperties">
+            <Property
+              Name="CurrencySymbol"
+              Value="$" />
+          </Attribute>
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Association="InsuranceCompanyFiles_InsurancePolicyFiles"
+        FromEnd="InsurancePolicyFiles"
+        Name="InsuranceCompany"
+        ToEnd="InsuranceCompanyFiles" />
+      <NavigationProperty
+        Association="InsurancePolicyServiceFiles_InsurancePolicyFiles"
+        FromEnd="InsurancePolicyFiles"
+        Name="InsurancePolicyServicesCollection"
+        ToEnd="InsurancePolicyServiceFiles" />
+      <NavigationProperty
+        Association="PatientInsuranceFiles_InsurancePolicyFiles"
+        FromEnd="InsurancePolicyFiles"
+        Name="PatientInsuranceCollection"
+        ToEnd="PatientInsuranceFiles" />
+    </EntityType.Properties>
+  </EntityType>
+  <Association
+    Name="InsurancePolicyServiceFiles_InsurancePolicyFiles">
+    <AssociationEnd
+      EntityType="InsurancePolicyServiceFiles"
+      Multiplicity="Many"
+      Name="InsurancePolicyServiceFiles" />
+    <AssociationEnd
+      EntityType="InsurancePolicyFiles"
+      Multiplicity="One"
+      Name="InsurancePolicyFiles">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Cascade" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="PatientInsuranceFiles_InsurancePolicyFiles">
+    <AssociationEnd
+      EntityType="PatientInsuranceFiles"
+      Multiplicity="Many"
+      Name="PatientInsuranceFiles" />
+    <AssociationEnd
+      EntityType="InsurancePolicyFiles"
+      Name="InsurancePolicyFiles">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Restrict" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <EntityContainer
+    Name="ApplicationData">
+    <EntityContainer.Attributes>
+      <Partial />
+    </EntityContainer.Attributes>
+    <EntitySet
+      CanDelete="True"
+      CanInsert="True"
+      CanUpdate="True"
+      EntityType="InsurancePolicyFiles"
+      Name="InsurancePolicyFilesSet" />
+    <QueryOperation
+      Name="InsurancePolicyFilesSet_Single"
+      ReturnType="InsurancePolicyFiles">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s)." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="Id" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="Id" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="InsurancePolicyFilesSet" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="Id"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Id' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <QueryOperation
+      Name="InsurancePolicyFilesSet_SingleOrDefault"
+      ReturnType="InsurancePolicyFiles">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s) or null if no such entity exists." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="Id" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="Id" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="InsurancePolicyFilesSet" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="Id"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Id' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <AssociationSet
+      Association="InsurancePolicyServiceFiles_InsurancePolicyFiles"
+      Name="InsurancePolicyServiceFiles_InsurancePolicyFilesSet">
+      <AssociationSetEnd
+        EntitySet="InsurancePolicyServiceFilesSet"
+        Name="InsurancePolicyServiceFiles" />
+      <AssociationSetEnd
+        EntitySet="InsurancePolicyFilesSet"
+        Name="InsurancePolicyFiles" />
+    </AssociationSet>
+    <AssociationSet
+      Association="PatientInsuranceFiles_InsurancePolicyFiles"
+      Name="PatientInsuranceFiles_InsurancePolicyFilesSet">
+      <AssociationSetEnd
+        EntitySet="PatientInsuranceFilesSet"
+        Name="PatientInsuranceFiles" />
+      <AssociationSetEnd
+        EntitySet="InsurancePolicyFilesSet"
+        Name="InsurancePolicyFiles" />
+    </AssociationSet>
+  </EntityContainer>
+  <DataService
+    Name="ApplicationDataMapping">
+    <DataService.Attributes>
+      <Partial />
+    </DataService.Attributes>
+    <EntitySetMapping
+      EntitySet="InsurancePolicyFilesSet">
+      <EntitySetMapping.Attributes>
+        <SsdlForeignKeyProperty
+          Name="InsuranceCompanyFiles_InsurancePolicyFiles"
+          Nullable="False"
+          Type="int" />
+      </EntitySetMapping.Attributes>
+    </EntitySetMapping>
+    <AssociationSetMapping
+      AssociationSet="InsurancePolicyServiceFiles_InsurancePolicyFilesSet">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="InsurancePolicyServiceFiles_InsurancePolicyFilesSet" />
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[InsurancePolicyServiceFiles_InsurancePolicyFilesSet]/Members[InsurancePolicyServiceFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="InsurancePolicyServiceFiles_InsurancePolicyFiles" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[InsurancePolicyServiceFiles_InsurancePolicyFilesSet]/Members[InsurancePolicyFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Id" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="PatientInsuranceFiles_InsurancePolicyFilesSet">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="PatientInsuranceFiles_InsurancePolicyFilesSet" />
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[PatientInsuranceFiles_InsurancePolicyFilesSet]/Members[PatientInsuranceFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="PatientInsuranceFiles_InsurancePolicyFiles" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[PatientInsuranceFiles_InsurancePolicyFilesSet]/Members[InsurancePolicyFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Id" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+  </DataService>
+</ServiceApplication>

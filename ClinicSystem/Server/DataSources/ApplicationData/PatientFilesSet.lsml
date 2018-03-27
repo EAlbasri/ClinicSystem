@@ -1,0 +1,514 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceApplication
+  Name="LightSwitchServiceApplication" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <ServiceApplication.Attributes>
+    <Partial />
+  </ServiceApplication.Attributes>
+  <EntityType
+    Name="PatientFiles">
+    <EntityType.Methods>
+      <EntityMethod
+        Name="Delete">
+        <EntityMethod.Attributes>
+          <Generated />
+        </EntityMethod.Attributes>
+      </EntityMethod>
+    </EntityType.Methods>
+    <EntityType.Properties>
+      <KeyProperty
+        Name="Id"
+        PropertyType=":Int32">
+        <KeyProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </KeyProperty.Attributes>
+      </KeyProperty>
+      <EntityProperty
+        Name="RowVersion"
+        PropertyType=":RowVersion">
+        <EntityProperty.Attributes>
+          <UseForConcurrency />
+          <Generated />
+          <Hidden />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Photo"
+        PropertyType="Microsoft.LightSwitch.Extensions:Image?">
+        <EntityProperty.Attributes>
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="FullName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Computed />
+          <Hidden />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="FirstName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="MidName"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="LastName"
+        PropertyType=":String">
+        <EntityProperty.Attributes>
+          <Required />
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Phone"
+        PropertyType="Microsoft.LightSwitch.Extensions:PhoneNumber?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Mobile"
+        PropertyType="Microsoft.LightSwitch.Extensions:PhoneNumber?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Email"
+        PropertyType="Microsoft.LightSwitch.Extensions:EmailAddress?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="BloodType"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+          <SupportedValue
+            DisplayName="A+"
+            Value="A+" />
+          <SupportedValue
+            DisplayName="A"
+            Value="A" />
+          <SupportedValue
+            DisplayName="B"
+            Value="B" />
+          <SupportedValue
+            DisplayName="O"
+            Value="O" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="IdentityNumber"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="AddressLine1"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="AddressLine2"
+        PropertyType=":String?">
+        <EntityProperty.Attributes>
+          <MaxLength
+            Value="255" />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
+        Name="Inactive"
+        PropertyType=":Boolean">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <NavigationProperty
+        Association="AppointmentFiles_PatientFiles"
+        FromEnd="PatientFiles"
+        Name="AppointmentsCollection"
+        ToEnd="AppointmentFiles" />
+      <NavigationProperty
+        Association="PatientChronicDiseaseFiles_PatientFiles"
+        FromEnd="PatientFiles"
+        Name="PatientChronicDiseasesCollection"
+        ToEnd="PatientChronicDiseaseFiles" />
+      <NavigationProperty
+        Association="DrugAllergyFiles_PatientFiles"
+        FromEnd="PatientFiles"
+        Name="DrugAllergysCollection"
+        ToEnd="DrugAllergyFiles" />
+      <NavigationProperty
+        Association="PrescriptionFiles_PatientFiles"
+        FromEnd="PatientFiles"
+        Name="PrescriptionsCollection"
+        ToEnd="PrescriptionFiles" />
+      <NavigationProperty
+        Association="PatientInsuranceFiles_PatientFiles"
+        FromEnd="PatientFiles"
+        Name="PatientInsurance"
+        ToEnd="PatientInsuranceFiles" />
+    </EntityType.Properties>
+  </EntityType>
+  <Association
+    Name="AppointmentFiles_PatientFiles">
+    <AssociationEnd
+      EntityType="AppointmentFiles"
+      Multiplicity="Many"
+      Name="AppointmentFiles" />
+    <AssociationEnd
+      EntityType="PatientFiles"
+      Multiplicity="One"
+      Name="PatientFiles">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Restrict" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="PatientChronicDiseaseFiles_PatientFiles">
+    <AssociationEnd
+      EntityType="PatientChronicDiseaseFiles"
+      Multiplicity="Many"
+      Name="PatientChronicDiseaseFiles" />
+    <AssociationEnd
+      EntityType="PatientFiles"
+      Multiplicity="One"
+      Name="PatientFiles">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Cascade" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="DrugAllergyFiles_PatientFiles">
+    <AssociationEnd
+      EntityType="DrugAllergyFiles"
+      Multiplicity="Many"
+      Name="DrugAllergyFiles" />
+    <AssociationEnd
+      EntityType="PatientFiles"
+      Multiplicity="One"
+      Name="PatientFiles">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Cascade" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="PrescriptionFiles_PatientFiles">
+    <AssociationEnd
+      EntityType="PrescriptionFiles"
+      Multiplicity="Many"
+      Name="PrescriptionFiles" />
+    <AssociationEnd
+      EntityType="PatientFiles"
+      Multiplicity="One"
+      Name="PatientFiles">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Cascade" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <Association
+    Name="PatientInsuranceFiles_PatientFiles">
+    <AssociationEnd
+      EntityType="PatientInsuranceFiles"
+      Name="PatientInsuranceFiles" />
+    <AssociationEnd
+      EntityType="PatientFiles"
+      Multiplicity="One"
+      Name="PatientFiles">
+      <AssociationEnd.Attributes>
+        <DeleteRule
+          Action="Cascade" />
+      </AssociationEnd.Attributes>
+    </AssociationEnd>
+  </Association>
+  <EntityContainer
+    Name="ApplicationData">
+    <EntityContainer.Attributes>
+      <Partial />
+    </EntityContainer.Attributes>
+    <EntitySet
+      CanDelete="True"
+      CanInsert="True"
+      CanUpdate="True"
+      EntityType="PatientFiles"
+      Name="PatientFilesSet" />
+    <QueryOperation
+      Name="PatientFilesSet_Single"
+      ReturnType="PatientFiles">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s)." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="Id" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="Id" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="PatientFilesSet" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="Id"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Id' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <QueryOperation
+      Name="PatientFilesSet_SingleOrDefault"
+      ReturnType="PatientFiles">
+      <QueryOperation.Attributes>
+        <Generated />
+        <Description
+          Value="Returns the entity whose identity is specified by the parameter(s) or null if no such entity exists." />
+      </QueryOperation.Attributes>
+      <QueryOperation.FilterExpression>
+        <QueryFilterExpressionTree>
+          <BinaryExpression
+            NodeType="Equal">
+            <BinaryExpression.Left>
+              <ChainExpression>
+                <MemberExpression
+                  Member="Id" />
+              </ChainExpression>
+            </BinaryExpression.Left>
+            <BinaryExpression.Right>
+              <ParameterExpression
+                Parameter="Id" />
+            </BinaryExpression.Right>
+          </BinaryExpression>
+        </QueryFilterExpressionTree>
+      </QueryOperation.FilterExpression>
+      <QueryOperation.Source>
+        <QuerySourceExpressionTree>
+          <MemberExpression
+            Member="PatientFilesSet" />
+        </QuerySourceExpressionTree>
+      </QueryOperation.Source>
+      <QueryOperationParameter
+        Name="Id"
+        ParameterType=":Int32?">
+        <QueryOperationParameter.Attributes>
+          <Description
+            Value="The value of the 'Id' key property of the entity to retrieve." />
+        </QueryOperationParameter.Attributes>
+      </QueryOperationParameter>
+    </QueryOperation>
+    <AssociationSet
+      Association="AppointmentFiles_PatientFiles"
+      Name="AppointmentFiles_PatientFilesSet">
+      <AssociationSetEnd
+        EntitySet="AppointmentFilesSet"
+        Name="AppointmentFiles" />
+      <AssociationSetEnd
+        EntitySet="PatientFilesSet"
+        Name="PatientFiles" />
+    </AssociationSet>
+    <AssociationSet
+      Association="PatientChronicDiseaseFiles_PatientFiles"
+      Name="PatientChronicDiseaseFiles_PatientFilesSet">
+      <AssociationSetEnd
+        EntitySet="PatientChronicDiseaseFilesSet"
+        Name="PatientChronicDiseaseFiles" />
+      <AssociationSetEnd
+        EntitySet="PatientFilesSet"
+        Name="PatientFiles" />
+    </AssociationSet>
+    <AssociationSet
+      Association="DrugAllergyFiles_PatientFiles"
+      Name="DrugAllergyFiles_PatientFilesSet">
+      <AssociationSetEnd
+        EntitySet="DrugAllergyFilesSet"
+        Name="DrugAllergyFiles" />
+      <AssociationSetEnd
+        EntitySet="PatientFilesSet"
+        Name="PatientFiles" />
+    </AssociationSet>
+    <AssociationSet
+      Association="PrescriptionFiles_PatientFiles"
+      Name="PrescriptionFiles_PatientFilesSet">
+      <AssociationSetEnd
+        EntitySet="PrescriptionFilesSet"
+        Name="PrescriptionFiles" />
+      <AssociationSetEnd
+        EntitySet="PatientFilesSet"
+        Name="PatientFiles" />
+    </AssociationSet>
+    <AssociationSet
+      Association="PatientInsuranceFiles_PatientFiles"
+      Name="PatientInsuranceFiles_PatientFilesSet">
+      <AssociationSetEnd
+        EntitySet="PatientInsuranceFilesSet"
+        Name="PatientInsuranceFiles" />
+      <AssociationSetEnd
+        EntitySet="PatientFilesSet"
+        Name="PatientFiles" />
+    </AssociationSet>
+  </EntityContainer>
+  <DataService
+    Name="ApplicationDataMapping">
+    <DataService.Attributes>
+      <Partial />
+    </DataService.Attributes>
+    <EntitySetMapping
+      EntitySet="PatientFilesSet" />
+    <AssociationSetMapping
+      AssociationSet="AppointmentFiles_PatientFilesSet">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="AppointmentFiles_PatientFilesSet" />
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[AppointmentFiles_PatientFilesSet]/Members[AppointmentFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="AppointmentFiles_PatientFiles" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[AppointmentFiles_PatientFilesSet]/Members[PatientFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Id" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="PatientChronicDiseaseFiles_PatientFilesSet">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="PatientChronicDiseaseFiles_PatientFilesSet" />
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[PatientChronicDiseaseFiles_PatientFilesSet]/Members[PatientChronicDiseaseFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="PatientChronicDiseaseFiles_PatientFiles" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[PatientChronicDiseaseFiles_PatientFilesSet]/Members[PatientFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Id" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="DrugAllergyFiles_PatientFilesSet">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="DrugAllergyFiles_PatientFilesSet" />
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[DrugAllergyFiles_PatientFilesSet]/Members[DrugAllergyFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="DrugAllergyFiles_PatientFiles" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[DrugAllergyFiles_PatientFilesSet]/Members[PatientFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Id" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="PrescriptionFiles_PatientFilesSet">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="PrescriptionFiles_PatientFilesSet" />
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[PrescriptionFiles_PatientFilesSet]/Members[PrescriptionFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="PrescriptionFiles_PatientFiles" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[PrescriptionFiles_PatientFilesSet]/Members[PatientFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Id" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+    <AssociationSetMapping
+      AssociationSet="PatientInsuranceFiles_PatientFilesSet">
+      <AssociationSetMapping.Attributes>
+        <SsdlAssociationSet
+          Name="PatientInsuranceFiles_PatientFilesSet" />
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[PatientInsuranceFiles_PatientFilesSet]/Members[PatientInsuranceFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Id" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+        <SsdlAssociationSetEnd
+          End="ApplicationData/Members[PatientInsuranceFiles_PatientFilesSet]/Members[PatientFiles]">
+          <SsdlAssociationSetEnd.Attributes>
+            <SsdlPropertyRef
+              Name="Id" />
+          </SsdlAssociationSetEnd.Attributes>
+        </SsdlAssociationSetEnd>
+      </AssociationSetMapping.Attributes>
+    </AssociationSetMapping>
+  </DataService>
+</ServiceApplication>
